@@ -22,7 +22,9 @@
     "require-dev": {
         "php-cs-fixer/shim": "^3.71",
         "phpstan/phpstan": "^2.1",
-        "phpstan/phpstan-beberlei-assert": "^2.0"
+        "phpstan/phpstan-beberlei-assert": "^2.0",
+        "symfony/stopwatch": "6.4.*",
+        "symfony/web-profiler-bundle": "6.4.*"
     },
     "config": {
         "allow-plugins": {
