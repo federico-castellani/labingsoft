@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class HomePageController
 {
-    #[Route('/')]
+    #[Route('/', name: 'home_page')]
     public function index(Request $request): Response
     {
         return new Response('<html><body>Ciao!</body></html>');
