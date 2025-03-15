@@ -1,0 +1,21 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Weather App</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link {% if app.current_route == 'home_page' %}active{% endif %}" href="{{ path('home_page') }}">{{ 'navigation.home'|trans }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if app.current_route == 'about' %}active{% endif  %}" href="{{ path('about') }}">{{ 'navigation.about'|trans }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if app.current_route == 'view_weather_forecasts_by_city' %} active {% endif %}" href="{{ path('view_weather_forecasts_by_city', {'countryCode': 'IT', 'cityName': 'Perugia'}) }}">{{ 'navigation.forecast'|trans }}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
