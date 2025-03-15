@@ -34,9 +34,10 @@ class WeatherController extends AbstractController
                         'country' => 'IT',
                     ],
                     'shortDescription' => 'SUNNY',
-                    'temperature' => 20,
-                    'wind' => 2,
-                    'humidity' => 0.30,
+                    'minimumCelsiusTemperature' => 5,
+                    'maximumCelsiusTemperature' => 20,
+                    'windSpeedKmh' => 2,
+                    'humidityPercentage' => 0.30,
                 ],
             ]
         );
