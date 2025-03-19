@@ -1,0 +1,9 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+    {% if state is not null and city is not null %}
+        {{ 'weather.message_%state%_%city%' | trans({'%state%': state, '%city%': city}) }}
+    {% else %}
+        {{ 'weather.main' | trans }}
+    {% endif %}
+{% endblock %}

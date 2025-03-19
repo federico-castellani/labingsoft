@@ -2,7 +2,7 @@
 
 {% block content %}
     {% if subject is not null %}
-        {{ 'greeting_%subject%' | trans({'%subject%': subject}) }}!
+        {{ 'about.greeting_%subject%' | trans({'%subject%': subject}) }}!
     {% else %}
         {{ 'about.description' | trans }}
     {% endif %}
