@@ -1,9 +1,21 @@
 {% extends 'layout.html.twig' %}
 
+{% block title %}
+    {{ 'weather.message_%state%_%city%' | trans({
+        '%city%': city,
+        '%state%': state,
+    }) }}
+    {{ parent() }}
+{% endblock %}
+
 {% block content %}
-    {% if state is not null and city is not null %}
-        {{ 'weather.message_%state%_%city%' | trans({'%state%': state, '%city%': city}) }}
-    {% else %}
-        {{ 'weather.main' | trans }}
-    {% endif %}
+    <h1>{{ 'weather.message_%state%_%city%' | trans({
+            '%city%': city,
+            '%state%': state,
+        }) }}</h1>
+
+    {# Riga contenitore #}
+    <div class="row mt-3">
+        {{ include('weather/_forecastCard.html.twig') }}
+    </div>
 {% endblock %}

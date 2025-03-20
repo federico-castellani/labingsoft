@@ -19,9 +19,24 @@ class WeatherController extends AbstractController
         ])]
     public function index(?string $state = null, ?string $city = null): Response
     {
-        return $this->render('weather/index.html.twig', [
-            'state' => $state,
-            'city' => $city,
-        ]);
+        return $this->render(
+            'weather/index.html.twig',
+            [
+                'state' => $state,
+                'city' => $city,
+                'forecast' => [
+                    'day' => new \DateTimeImmutable('today'),
+                    'location' => [
+                        'name' => 'Perugia',
+                        'country' => 'IT',
+                    ],
+                    'shortDescription' => 'SUNNY',
+                    'minimumCelsiusTemperature' => 5,
+                    'maximumCelsiusTemperature' => 20,
+                    'windSpeedKmh' => 2,
+                    'humidityPercentage' => 0.30,
+                ],
+            ]
+        );
     }
 }
