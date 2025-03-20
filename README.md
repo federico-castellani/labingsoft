@@ -3,7 +3,7 @@
 **Requisiti:**
 
 - Linux (dual-boot o macchina virtuale) o in alternativa docker desktop per mac o windows (alcuni passaggi potrebbero
-- richiedere aggiustamenti in questo caso.)
+richiedere aggiustamenti in questo caso.)
 - Docker-engine
 - Docker-compose
 - Make

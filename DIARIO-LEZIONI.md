@@ -144,5 +144,88 @@ Roma (IT)".
 - https://symfony.com/doc/6.4/frontend/asset_mapper.html
 - https://symfony.com/doc/6.4/translation.html#translations-in-templates
 
-La [Branch "lesson-two-end"](https://github.com/RBastianini/labingsoft/tree/lesson-two-end) contiene lo stato del
+La [Branch "lesson-two-end"](https://github.com/RBastianini/labingsoft/tree/lesson-two-end) contiene lo stato del repository alla fine della lezione.
+
+## Lezione 3 - Model, Doctrine, migrazioni e comandi della console
+Abbiamo iniziato la lezione aggiungendo il controller `WeatherController`, la rotta per le previsioni e il relativo
+template che insieme componevano la soluzione dell'esercizio dell'altra lezione. Abbiamo poi aggiunto un ulteriore
+template `_navBar.html.twig` e abbiamo visto la funzione
+[`include()`](https://twig.symfony.com/doc/3.x/tags/include.html) per il rendering del template parziale. Prima di
+proseguire abbiamo anche modificato la rotta del controller per aggiungere dei requisiti per il matching, per fare in
+modo che la rotta venisse riconosciuta solo quando il codice dello stato fosse composto da 2 lettere, e la città da sole
+lettere e numeri.
+
+Abbiamo quindi fatto un esercizio di modellazione, discutendo su quali proprietà avrebbero dovuto avere le nostre entità 
+di tipo "Previsione del tempo" (Forecast) e nel farlo abbiamo anche dedeterminato l'esistenza di un'entità "Luogo"
+(Location).
+Abbiamo scritto la struttura di un oggetto Forecast seguendo il nostro modello, utilizzando però un array semplice, al
+solo scopo di avere una struttura base da utilizzare per popolare una view, utilizzando un altro modello parziale
+`_forcastCard.html.twig`.
+
+Abbiamo quindi installato l'ORM "Doctrine" (e il plugin per phpstan)
+```shell
+# Dall'interno del container
+# Alla domanda riguardante docker, rispondere no: il database su docker è già configurato
+$ composer require orm
+$ composer require --dev phpstan/phpstan-doctrine
+```
+
+Il passaggio successivo è stato quello di configurare l'accesso al database, modificando la variabile `DATABASE_URL`
+all'interno del nostro file `.env`:
+`DATABASE_URL="postgresql://dbuser:segreta@db:5432/app?serverVersion=16&charset=utf8"` e per finire abbiamo verificato
+che l'applicazione fosse in grado di collegarsi al database, tramite il comando
+```shell
+# Dall'interno del container
+$ bin/console doctrine:schema:create
+```
+Dopo aver configurato l'accesso al database tramite PHPStorm per poter controllare lo stato delle tabelle, abbiamo
+definito la nostra prima entità `Location` come un semplice oggetto PHP (POPO). Nel farlo abbiamo discusso di quali
+fossero le proprietà obbligatorie per la creazione di una Location ("cosa rende un luogo un luogo") e abbiamo
+quindi aggiunto queste proprietà come obbligatorie nel costruttore.
+
+Abbiamo quindi aggiunto gli attributi di Doctrine per trasformare la nostra entità `Location` in una entità Doctrine.
+Dopo questo passaggio abbiamo affrontato l'argomento delle migrazioni e infine utilizzando la console abbiamo generato
+ed eseguito (dopo qualche piccola modifica) la nostra prima migrazione tramite Doctrine.
+
+```shell
+# Dall'interno del container
+$ bin/console doctrine:schema:diff
+$ bin/console doctrine:migrations:migrate
+```
+
+Per finire, abbiamo iniziato la definizione un comando da console `app:location:create` per poter aggiungere dati al
+nostro database. Riprenderemo la lezione da questo punto.
+
+### Da fare per casa
+Provare ad aggiungere la definizione del modello per `Forecast`, come abbiamo fatto per `Location`. Definire le 
+proprietà di Forecast seguendo la struttura dell'array che abbiamo passato alla view di `ForecastController::index()`
+```php
+$forecast = [
+    'day' => new \DateTimeImmutable('today'),
+    'location' => [
+        'name' => 'Perugia',
+        'country' => 'IT',
+    ],
+    'shortDescription' => 'SUNNY',
+    'minimumCelsiusTemperature' => 5,
+    'maximumCelsiusTemperature' => 20,
+    'windSpeedKmh' => 2,
+    'humidityPercentage' => 0.30,
+];
+```
+Non abiamo visto come si definiscono tutte le proprietà, quindi occorrerà consultare la
+[documentazione sui tipi](https://www.doctrine-project.org/projects/doctrine-orm/en/3.3/reference/basic-mapping.html#basic-mapping),
+la [documentazione sulle relazioni](https://www.doctrine-project.org/projects/doctrine-orm/en/3.3/reference/association-mapping.html#association-mapping).
+
+### Riferimenti
+- https://symfony.com/doc/6.4/configuration.html#config-dot-env
+- https://symfony.com/doc/6.4/routing.html#parameters-validation
+- https://vimeo.com/channels/phpday/176057940 (richiede un account vimeo - gratuito)
+- https://martinfowler.com/eaaCatalog/dataMapper.html
+- https://www.doctrine-project.org/projects/doctrine-orm/en/3.3/reference/basic-mapping.html#basic-mapping
+- https://www.doctrine-project.org/projects/doctrine-orm/en/3.3/reference/association-mapping.html#association-mapping
+- https://symfony.com/bundles/DoctrineMigrationsBundle/current/index.html#generating-migrations-automatically
+- https://symfony.com/doc/6.4/console.html#creating-a-command
+
+La [Branch "lesson-three-end"](https://github.com/RBastianini/labingsoft/tree/lesson-three-end) contiene lo stato del
 repository alla fine della lezione.
