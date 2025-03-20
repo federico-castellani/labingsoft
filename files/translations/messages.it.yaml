@@ -5,3 +5,7 @@ about:
 weather:
   main: Qui puoi vedere il meteo
   message_%state%_%city%: Ecco le previsioni del tempo per %city%(%state%)
+navigation:
+  home: Pagina principale
+  about: Informazioni
+  forecast: Previsioni
