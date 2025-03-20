@@ -26,7 +26,18 @@ class WeatherController extends AbstractController
             'weather/index.html.twig',
             [
                 'countryCode' => $countryCode,
-                'cityName' => $cityName
+                'cityName' => $cityName,
+                'forecast' => [
+                    'day' => new \DateTimeImmutable('today'),
+                    'location' => [
+                        'name' => 'Perugia',
+                        'country' => 'IT',
+                    ],
+                    'shortDescription' => 'SUNNY',
+                    'temperature' => 20,
+                    'wind' => 2,
+                    'humidity' => 0.30,
+                ],
             ]
         );
     }
