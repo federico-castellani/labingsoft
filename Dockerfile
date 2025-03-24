@@ -1,4 +1,4 @@
-FROM php:8.3-apache AS base_image
+FROM php:8.4.5-apache AS base_image
 # Update package lists and install common composer tools
 RUN apt-get update && apt-get install wget unzip git -y
 # Install docker-php-extension-installer
@@ -17,7 +17,8 @@ ENV UID=$UID
 ENV GUID=$GUID
 # Hack: Change www-data uid/group to allow apache to read files we will create.
 # Change www-data home folder to avoid placing config / cache files in /var/www.
-RUN sed -ri "s!^www-data:x:33:33:www-data:/var/www!www-data:x:$UID:$GUID:www-data:/home/www-data!" /etc/passwd
+# RUN sed -ri "s!^www-data:x:33:33:www-data:/var/www!www-data:x:$UID:$GUID:www-data:/home/www-data!" /etc/passwd
+RUN deluser www-data && groupadd -g $GUID www-data && useradd -s /bin/bash -m -d /home/www-data -g $GUID -r -u $UID www-data
 
 # Change document root to /var/www/public
 RUN sed -ri -e 's!/var/www/html!/var/www/files/public!g' /etc/apache2/sites-available/*.conf
