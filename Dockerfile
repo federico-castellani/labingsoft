@@ -1,4 +1,4 @@
-FROM php:8.4.5-apache AS base_image
+FROM php:8.3-apache AS base_image
 # Update package lists and install common composer tools
 RUN apt-get update && apt-get install wget unzip git -y
 # Install docker-php-extension-installer
