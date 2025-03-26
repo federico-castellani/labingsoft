@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use Assert\Assertion;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -39,8 +40,8 @@ class Location
 
     public function __construct(string $name, string $country)
     {
-        $this->name = $name;
-        $this->country = $country;
+        $this->name = mb_strtolower($name);
+        $this->country = mb_strtolower($country);
         $this->forecasts = new ArrayCollection();
     }
 
@@ -56,7 +57,7 @@ class Location
 
     public function setName(string $name): void
     {
-        $this->name = $name;
+        $this->name = mb_strtolower($name);
     }
 
     public function getCountry(): string
@@ -66,7 +67,8 @@ class Location
 
     public function setCountry(string $country): void
     {
-        $this->country = $country;
+        Assertion::length($country, 2, 'Country must be two characters long');
+        $this->country = mb_strtolower($country);
     }
 
     // Here we can also return a collection, but it should not be THE SAME collection, or we might end up modifying the
@@ -87,6 +89,7 @@ class Location
 
     public function setLatitude(?string $latitude): void
     {
+        Assertion::nullOrBetween($latitude, -90, 90, 'Latitude must be between -90 and +90');
         $this->latitude = $latitude;
     }
 
@@ -97,6 +100,7 @@ class Location
 
     public function setLongitude(?string $longitude): void
     {
+        Assertion::nullOrBetween($longitude, -180, 180, 'Longitude must be between -180 and +180');
         $this->longitude = $longitude;
     }
 }

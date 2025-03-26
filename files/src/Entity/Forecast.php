@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Enum\ShortWeatherDescription;
+use App\ValueObject\TemperatureSpan;
+use Assert\Assertion;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity()]
@@ -43,7 +45,10 @@ class Forecast
     public function __construct(Location $location, \DateTimeImmutable $day, ShortWeatherDescription $shortDescription)
     {
         $this->location = $location;
-        $this->day = $day;
+        // We do not want two forecasts for the same day but different time and neither PHP nor Doctrine nor postgres
+        // have such a type. The simple solution is to zero-out the time. We could also create our own value object for
+        // date-without-time.
+        $this->day = $day->setTime(0, 0, 0);
         $this->shortDescription = $shortDescription;
     }
 
@@ -59,7 +64,10 @@ class Forecast
 
     public function setDay(\DateTimeImmutable $day): void
     {
-        $this->day = $day;
+        // We do not want two forecasts for the same day but different time and neither PHP nor Doctrine nor postgres
+        // have such a type. The simple solution is to zero-out the time. We could also create our own value object for
+        // date-without-time.
+        $this->day = $day->setTime(0, 0, 0);
     }
 
     public function getLocation(): Location
@@ -82,24 +90,59 @@ class Forecast
         $this->shortDescription = $shortDescription;
     }
 
+    /**
+     * @deprecated This method is here just for illustration purposes
+     */
+    public function setCelsiusTemperature(
+        ?int $minimumCelsiusTemperature = null,
+        ?int $maximumCelsiusTemperature = null
+    ): void {
+        Assertion::true(
+            !($minimumCelsiusTemperature === null xor $minimumCelsiusTemperature === null),
+            'Both temperature must be specified or null at the same time'
+        );
+        Assertion::nullOrLessOrEqualThan(
+            $minimumCelsiusTemperature,
+            $maximumCelsiusTemperature,
+            'Minimum celsius temperature must be not greater than maximum celsius temperature'
+        );
+        $this->minimumCelsiusTemperature = $minimumCelsiusTemperature;
+        $this->maximumCelsiusTemperature = $maximumCelsiusTemperature;
+    }
+
+    public function setTemperatureSpan(?TemperatureSpan $temperatureSpan): void
+    {
+        if (null === $temperatureSpan) {
+            $this->minimumCelsiusTemperature = null;
+            $this->maximumCelsiusTemperature = null;
+            return;
+        }
+        $this->minimumCelsiusTemperature = $temperatureSpan->getMinimumCelsiusTemperature();
+        $this->maximumCelsiusTemperature = $temperatureSpan->getMaximumCelsiusTemperature();
+    }
+
+    public function getTemperatureSpan(): ?TemperatureSpan
+    {
+        if (null === $this->minimumCelsiusTemperature && null === $this->maximumCelsiusTemperature) {
+            return null;
+        }
+        return new TemperatureSpan($this->minimumCelsiusTemperature, $this->maximumCelsiusTemperature);
+    }
+
+    /**
+     * @deprecated This method is here just for illustration purposes
+     */
     public function getMinimumCelsiusTemperature(): ?int
     {
         return $this->minimumCelsiusTemperature;
     }
 
-    public function setMinimumCelsiusTemperature(?int $minimumCelsiusTemperature): void
-    {
-        $this->minimumCelsiusTemperature = $minimumCelsiusTemperature;
-    }
-
+    /**
+     * @deprecated This method is here just for illustration purposes
+     */
     public function getMaximumCelsiusTemperature(): ?int
     {
         return $this->maximumCelsiusTemperature;
-    }
-
-    public function setMaximumCelsiusTemperature(?int $maximumCelsiusTemperature): void
-    {
-        $this->maximumCelsiusTemperature = $maximumCelsiusTemperature;
     }
 
     public function getWindSpeedKmh(): ?int
@@ -109,6 +152,7 @@ class Forecast
 
     public function setWindSpeedKmh(?int $windSpeedKmh): void
     {
+        Assertion::nullOrGreaterOrEqualThan($windSpeedKmh, 0);
         $this->windSpeedKmh = $windSpeedKmh;
     }
 
@@ -119,6 +163,7 @@ class Forecast
 
     public function setHumidityPercentage(?string $humidityPercentage): void
     {
+        Assertion::nullOrBetween($humidityPercentage, 0, 1, 'Humidity percentage should be between 0 and 100');
         $this->humidityPercentage = $humidityPercentage;
     }
 }
