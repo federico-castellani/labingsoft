@@ -17,7 +17,6 @@ class Location
     #[ORM\Id()]
     #[ORM\GeneratedValue()]
     #[ORM\Column(name: 'id', type: 'integer')]
-    /** @phpstan-ignore property.onlyRead */
     private int $id;
 
     #[ORM\Column(name: 'name', type: 'string')]

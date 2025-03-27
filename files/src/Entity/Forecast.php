@@ -17,7 +17,6 @@ class Forecast
     #[ORM\Id()]
     #[ORM\GeneratedValue()]
     #[ORM\Column(name: 'id', type: 'integer')]
-    /** @phpstan-ignore property.onlyRead */
     private int $id;
 
     #[ORM\Column(name: 'day', type: 'datetimetz_immutable', nullable: false)]
@@ -95,10 +94,10 @@ class Forecast
      */
     public function setCelsiusTemperature(
         ?int $minimumCelsiusTemperature = null,
-        ?int $maximumCelsiusTemperature = null
+        ?int $maximumCelsiusTemperature = null,
     ): void {
         Assertion::true(
-            !($minimumCelsiusTemperature === null xor $minimumCelsiusTemperature === null),
+            !(null === $minimumCelsiusTemperature xor null === $minimumCelsiusTemperature),
             'Both temperature must be specified or null at the same time'
         );
         Assertion::nullOrLessOrEqualThan(
@@ -115,6 +114,7 @@ class Forecast
         if (null === $temperatureSpan) {
             $this->minimumCelsiusTemperature = null;
             $this->maximumCelsiusTemperature = null;
+
             return;
         }
         $this->minimumCelsiusTemperature = $temperatureSpan->getMinimumCelsiusTemperature();
@@ -126,6 +126,7 @@ class Forecast
         if (null === $this->minimumCelsiusTemperature && null === $this->maximumCelsiusTemperature) {
             return null;
         }
+
         return new TemperatureSpan($this->minimumCelsiusTemperature, $this->maximumCelsiusTemperature);
     }
 

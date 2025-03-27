@@ -25,12 +25,13 @@ class WeatherController extends AbstractController
     public function index(
         LocationRepository $repository,
         string $countryCode,
-        string $cityName
+        string $cityName,
     ): Response {
         $location = $repository->findOneByName('perugia');
         /** @var Location $location */
         $forecasts = $location->getForecasts();
         $forecast = reset($forecasts) ?: null;
+
         return $this->render(
             'weather/index.html.twig',
             [

@@ -47,6 +47,7 @@ class CreateLocationCommand extends Command
         );
         $this->entityManager->persist($location);
         $this->entityManager->flush();
+
         return Command::SUCCESS;
     }
 }
