@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity()]
@@ -28,10 +30,15 @@ class Location
     #[ORM\Column(name: 'longitude', type: 'decimal', precision: 11, scale: 8, nullable: true)]
     private ?string $longitude = null;
 
+    #[ORM\OneToMany(targetEntity: Forecast::class,mappedBy: 'location')]
+    /** @type Collection<Forecast> */
+    private Collection $forecasts;
+
     public function __construct(string $name, string $country)
     {
         $this->name = $name;
         $this->country = $country;
+        $this->forecasts = new ArrayCollection();
     }
 
     public function getId(): int
