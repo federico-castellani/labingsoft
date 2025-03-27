@@ -42,6 +42,7 @@ class Location
     {
         $this->name = mb_strtolower($name);
         $this->country = mb_strtolower($country);
+        Assertion::length($country, 2, 'Country must be two characters long');
         $this->forecasts = new ArrayCollection();
     }
 
