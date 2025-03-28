@@ -229,3 +229,46 @@ la [documentazione sulle relazioni](https://www.doctrine-project.org/projects/do
 
 La [Branch "lesson-three-end"](https://github.com/RBastianini/labingsoft/tree/lesson-three-end) contiene lo stato del
 repository alla fine della lezione.
+
+## Lezione 4 - Entità, Relazioni, Value Object, Repository.
+Nello svolgere insieme l'esercizio lasciato per casa l'altra volta, abbiamo visto come definire relazioni tra le entità
+e come definire relazioni dirette e inverse usando gli attributi. Abbiamo anche brevemente toccato l'argomento dei
+vincoli, aggiungendo dei vincoli di unicità sia su `Location` che su `Forecast`. Parlando delle proprietà temperatura
+minima e massima di `Forecast` e nell'ottica di impedire la creazione di entità non valide (e la manipolazione di entità
+valide fino a farle diventare invalide), abbiamo cercato un modo per impedire di violare il vincolo
+`minimumCelsiusTemperature <= maximumCelsiusTemperature`. Dopo alcuni tentativi, la soluzione al problema è arrivata
+introducendo il concetto di **Value Object** e creando il nostro primo value object: `TemperatureSpan`. 
+Abbiamo visto la definizione di un `enum` (`ShortWeatherDescription`) come modo per vincolare una proprietà ad un
+insieme finito di valori discreti noto a priori.
+Siamo quindi tornati al comando di console di Symfony `CreateLocationCommand` che avevamo lasciato in sospeso sul finire
+della lezione precedente. Abbiamo usato `EntityManagerInterface` per creare una nuova entità di tipo Location e per
+persisterla nel database. Abbiamo quindi creato un comando `LocationPlaygroundCommand` per vedere altri utilizzi di
+`EntityManagerInterface` per caricare entità dal database.
+Siamo quindi passati a definire ed utilizzare il **Repository Pattern**, creando `LocationRepository` ed ereditando da
+`ServiceEntityRepository` per vedere quali funzionalità sono a disposizione nei repository di Doctrine.
+Abbiamo visto la sintassi PHPDoc per definire i tipi specifici di oggetti "*generics*" in PHP e indagato come fanno i
+repository Doctrine ad avere dei metodi il cui nome dipende dalle proprietà definite nelle entità da essi gestiti, tramite i **metodi magici**.
+Infine, abbiamo rapidamente modificato la action `index` del nostro `ForecastController` per caricare un'entità di tipo
+`Location` dal database sulla base del nome, per poi ottenere da quella gli oggetti `Forecast` relazionati e stamparne
+uno, al posto di usare un array statico come alla fine della lezione precedente.
+
+### Da fare per casa
+Aggiungere un repository anche per `Forecast` come abbiamo fatto per `Location`.
+Creare un comando come `CreateLocationCommand` per creare oggetti `Forecast`. Notare quali sono le proprietà intrinseche
+di `Forecast` che non possono mancare e quelle facoltative. Usare queste informazioni per configurare argomenti e
+opzioni del comando.
+Inserire qualche previsione per le città che sono presenti nel database.
+
+### Riferimenti
+- https://www.doctrine-project.org/projects/doctrine-orm/en/3.3/reference/association-mapping.html#association-mapping
+- https://martinfowler.com/eaaCatalog/valueObject.html
+- https://phpstan.org/writing-php-code/phpdoc-types#general-arrays
+- https://phpstan.org/writing-php-code/phpdoc-types#iterables
+- https://phpstan.org/blog/generics-by-examples
+- https://martinfowler.com/eaaCatalog/repository.html
+- https://www.php.net/manual/en/language.oop5.magic.php
+- https://en.wikipedia.org/wiki/Elvis_operator
+- https://symfony.com/doc/6.4/doctrine.html#fetching-objects-from-the-database
+
+La [Branch "lesson-four-end"](https://github.com/RBastianini/labingsoft/tree/lesson-four-end) contiene lo stato del
+repository alla fine della lezione.
