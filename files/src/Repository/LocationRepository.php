@@ -15,4 +15,17 @@ class LocationRepository extends ServiceEntityRepository
     {
         parent::__construct($managerRegistry, Location::class);
     }
+
+    public function findByCountryAndName(string $country, string $name): ?Location
+    {
+        $result = $this->createQueryBuilder('l')
+            ->where('l.country = :country')
+            ->andWhere('l.name = :name')
+            ->setParameter('country', mb_strtolower($country))
+            ->setParameter('name', mb_strtolower($name))
+            ->getQuery()
+            ->getResult();
+
+        return reset($result) ?: null;
+    }
 }
