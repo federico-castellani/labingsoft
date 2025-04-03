@@ -44,4 +44,16 @@ class WeatherController extends AbstractController
             ]
         );
     }
+
+    #[Route('/', name: 'view_all_forecasts')]
+    public function listAll(LocationRepository $locationRepository): Response
+    {
+        $allLocations = $locationRepository->findAll();
+        $locationRepository->prefetchForecasts($allLocations);
+
+        return $this->render(
+            'weather/listAll.html.twig',
+            ['locations' => $allLocations]
+        );
+    }
 }

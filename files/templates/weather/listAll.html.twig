@@ -1,0 +1,21 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}{{ 'all_forecasts' | trans }}{% endblock %}
+
+{% block content %}
+    {% for location in locations %}
+        <h1>{{ 'weather_forecasts.here_are_the_weather_forecasts_for_%city_name%_%country_code%' | trans({
+                '%city_name%': location.name,
+                '%country_code%': location.country,
+            }) }}
+        </h1>
+        {# Riga contenitore #}
+        {% for forecast in location.forecasts %}
+            <div class="row mt-3">
+                {{ include('weather/_forecastCard.html.twig') }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+{% endblock %}
+
+
