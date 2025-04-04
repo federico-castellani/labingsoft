@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Enum\ShortWeatherDescription;
+use App\Repository\ForecastRepository;
 use App\ValueObject\TemperatureSpan;
 use Assert\Assertion;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity()]
+#[ORM\Entity(repositoryClass: ForecastRepository::class)]
 #[ORM\Table(name: 'forecasts')]
 #[ORM\UniqueConstraint('unique_forecast_by_location_and_day', columns: ['location_id', 'day'])]
 class Forecast

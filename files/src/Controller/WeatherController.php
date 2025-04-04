@@ -27,7 +27,10 @@ class WeatherController extends AbstractController
         string $countryCode,
         string $cityName,
     ): Response {
-        $location = $repository->findOneByName('perugia');
+        $location = $repository->findByCountryAndName($countryCode, $cityName);
+        if ($location === null) {
+            throw $this->createNotFoundException();
+        }
         /** @var Location $location */
         $forecasts = $location->getForecasts();
         $forecast = reset($forecasts) ?: null;
@@ -39,6 +42,18 @@ class WeatherController extends AbstractController
                 'cityName' => $cityName,
                 'forecast' => $forecast,
             ]
+        );
+    }
+
+    #[Route('/', name: 'view_all_forecasts')]
+    public function listAll(LocationRepository $locationRepository): Response
+    {
+        $allLocations = $locationRepository->findAll();
+        $locationRepository->prefetchForecasts($allLocations);
+
+        return $this->render(
+            'weather/listAll.html.twig',
+            ['locations' => $allLocations]
         );
     }
 }

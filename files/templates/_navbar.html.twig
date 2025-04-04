@@ -13,7 +13,7 @@
                     <a class="nav-link {% if app.current_route == 'about' %}active{% endif  %}" href="{{ path('about') }}">{{ 'navigation.about'|trans }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if app.current_route == 'view_weather_forecasts_by_city' %} active {% endif %}" href="{{ path('view_weather_forecasts_by_city', {'countryCode': 'IT', 'cityName': 'Perugia'}) }}">{{ 'navigation.forecast'|trans }}</a>
+                    <a class="nav-link {% if app.current_route == 'view_all_forecasts' %} active {% endif %}" href="{{ path('view_all_forecasts') }}">{{ 'navigation.forecast'|trans }}</a>
                 </li>
             </ul>
         </div>
