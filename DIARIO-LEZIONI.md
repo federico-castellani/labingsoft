@@ -247,7 +247,8 @@ persisterla nel database. Abbiamo quindi creato un comando `LocationPlaygroundCo
 Siamo quindi passati a definire ed utilizzare il **Repository Pattern**, creando `LocationRepository` ed ereditando da
 `ServiceEntityRepository` per vedere quali funzionalità sono a disposizione nei repository di Doctrine.
 Abbiamo visto la sintassi PHPDoc per definire i tipi specifici di oggetti "*generics*" in PHP e indagato come fanno i
-repository Doctrine ad avere dei metodi il cui nome dipende dalle proprietà definite nelle entità da essi gestiti, tramite i **metodi magici**.
+repository Doctrine ad avere dei metodi il cui nome dipende dalle proprietà definite nelle entità da essi gestiti,
+tramite i **metodi magici**.
 Infine, abbiamo rapidamente modificato la action `index` del nostro `ForecastController` per caricare un'entità di tipo
 `Location` dal database sulla base del nome, per poi ottenere da quella gli oggetti `Forecast` relazionati e stamparne
 uno, al posto di usare un array statico come alla fine della lezione precedente.
@@ -270,5 +271,33 @@ Inserire qualche previsione per le città che sono presenti nel database.
 - https://en.wikipedia.org/wiki/Elvis_operator
 - https://symfony.com/doc/6.4/doctrine.html#fetching-objects-from-the-database
 
-La [Branch "lesson-four-end"](https://github.com/RBastianini/labingsoft/tree/lesson-four-end) contiene lo stato del
+La [Branch "lesson-four-end"](https://github.com/RBastianini/labingsoft/tree/lesson-four-end) contiene lo stato del 
+repository alla fine della lezione.
+
+## Lezione 5 - Repository, Query builder, N+1 query problem e soluzioni
+La lezione è iniziata applicando insieme le correzioni presenti in
+[questo commit](https://github.com/RBastianini/labingsoft/commit/3edbd4d7f3b1fa731a6daa0080462c369fe6b205) ed è
+proseguita svolgendo insieme l'esercizio lasciato la lezione precedente, costruendo un comando per l'inserimento di
+entità Forecast nel database. Nel farlo, abbiamo visto come istanziare oggetti `DateTime` ed `Enum` a partire da
+stringhe e come utilizzare l'annotazione `ORM\Entity` per indicare a Doctrine quale classe sia il **Repository** di
+un'entità, in aggiunta a come utilizzare le opzioni dei comandi di Symfony CLI. Abbiamo personalizzato il nostro
+**Repository** delle `Location` per avere un metodo in grado di cercare `Location` per nome e per stato, per poi
+utilizzarlo nella rotta di `WeatherController::index`, facendo così in modo che venga restituita una previsione per la
+città specificata nell'URL. Per farlo abbiamo utilizzato il `Doctrine Query Builder` e accennato al **Builder pattern**.
+Successivamente, abbiamo aggiunto una rotta per mostrare tutte le città e le previsioni ad esse associate presenti nel
+nostro database. La prima implementazione, più semplice, è stata usata per introdurre il problema delle **N+1 query**,
+per risolvere il quale abbiamo usato sia la tecnica del *fetch join* che quella della *multi-step hydration*.
+
+### Da fare per casa
+Aggiungere un controller `LocationController` e una rotta `index` per mostrare tutte le location presenti nel database,
+utilizzando la paginazione caricando solo 10 per pagina e mostrando i link per andare alla pagina precedente e seguente.
+
+### Riferimenti
+- https://www.doctrine-project.org/projects/doctrine-orm/en/3.3/reference/dql-doctrine-query-language.html
+- https://symfony.com/doc/6.4/doctrine.html#querying-for-objects-the-repository
+- https://www.doctrine-project.org/projects/doctrine-orm/en/3.3/reference/query-builder.html
+- https://dev.to/lovestaco/the-n1-query-problem-the-silent-performance-killer-2b1c
+- https://ocramius.github.io/blog/doctrine-orm-optimization-hydration/
+
+La [Branch "lesson-five-end"](https://github.com/RBastianini/labingsoft/tree/lesson-five-end) contiene lo stato del
 repository alla fine della lezione.
