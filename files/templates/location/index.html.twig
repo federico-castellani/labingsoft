@@ -1,0 +1,26 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}{{ 'all_locations' | trans }}{% endblock %}
+
+{% block content %}
+    {% if page.items | length == 0 %}
+        {{ 'no_results' | trans }}
+    {% endif %}
+    {% for location in page.items %}
+        <div class="row">
+            <div class="col">{{ location.name }}</div>
+            <div class="col">
+                <a href="{{ path('view_weather_forecasts_by_city', {'cityName': location.name, 'countryCode': location.country}) }}">
+                    {{ 'view_forecasts' | trans }} &raquo;
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+    <div class="row">
+        <div class="col">{% if page.hasPreviousPage %} <a href="{{ path('view_all_locations', {'page': page.number - 1}) }}">&laquo;</a> {% endif %}</div>
+        <div class="col"> {{ 'page_%pageNumber%' | trans({'%pageNumber%': page.number}) }}</div>
+        <div class="col">{% if page.hasNextPage %} <a href="{{ path('view_all_locations', {'page': page.number + 1}) }}">&raquo;</a> {% endif %}</div>
+    </div>
+{% endblock %}
+
+
