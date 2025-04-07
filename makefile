@@ -12,3 +12,4 @@ ps:
 	docker compose ps
 reset-docker:
 	docker compose down -v --rmi all
+.PHONY: reset-docker ps logs shell stop start

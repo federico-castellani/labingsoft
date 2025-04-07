@@ -25,6 +25,7 @@
         "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^4.1",
         "php-cs-fixer/shim": "^3.71",
         "phpstan/extension-installer": "^1.4",
         "phpstan/phpstan": "^2.1",

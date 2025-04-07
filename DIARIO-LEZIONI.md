@@ -298,6 +298,7 @@ utilizzando la paginazione caricando solo 10 per pagina e mostrando i link per a
 - https://www.doctrine-project.org/projects/doctrine-orm/en/3.3/reference/query-builder.html
 - https://dev.to/lovestaco/the-n1-query-problem-the-silent-performance-killer-2b1c
 - https://ocramius.github.io/blog/doctrine-orm-optimization-hydration/
+- https://dev.to/andreasprega/entity-repositories-for-humans-part-1-2mnf
 
 La [Branch "lesson-five-end"](https://github.com/RBastianini/labingsoft/tree/lesson-five-end) contiene lo stato del
 repository alla fine della lezione.
