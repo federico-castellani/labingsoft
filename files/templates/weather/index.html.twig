@@ -14,8 +14,12 @@
             '%country_code%': countryCode,
         }) }}</h1>
 
-    {# Riga contenitore #}
-    <div class="row mt-3">
-        {{ include('weather/_forecastCard.html.twig') }}
-    </div>
+    {% if forecast is not null %}
+        {# Riga contenitore #}
+        <div class="row mt-3">
+            {{ include('weather/_forecastCard.html.twig') }}
+        </div>
+    {% else %}
+        <div class="row"><div class="col">{{ 'no_results' | trans }}</div></div>
+    {% endif %}
 {% endblock %}

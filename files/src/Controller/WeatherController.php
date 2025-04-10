@@ -28,7 +28,7 @@ class WeatherController extends AbstractController
         string $cityName,
     ): Response {
         $location = $repository->findByCountryAndName($countryCode, $cityName);
-        if ($location === null) {
+        if (null === $location) {
             throw $this->createNotFoundException();
         }
         /** @var Location $location */

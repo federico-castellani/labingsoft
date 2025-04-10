@@ -165,7 +165,7 @@ class Forecast
 
     public function setHumidityPercentage(?string $humidityPercentage): void
     {
-        Assertion::nullOrBetween($humidityPercentage, 0, 1, 'Humidity percentage should be between 0 and 100');
+        Assertion::nullOrBetween($humidityPercentage, 0, 1, 'Humidity percentage should be between 0 and 1');
         $this->humidityPercentage = $humidityPercentage;
     }
 }

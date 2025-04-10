@@ -298,6 +298,72 @@ utilizzando la paginazione caricando solo 10 per pagina e mostrando i link per a
 - https://www.doctrine-project.org/projects/doctrine-orm/en/3.3/reference/query-builder.html
 - https://dev.to/lovestaco/the-n1-query-problem-the-silent-performance-killer-2b1c
 - https://ocramius.github.io/blog/doctrine-orm-optimization-hydration/
+- https://dev.to/andreasprega/entity-repositories-for-humans-part-1-2mnf
 
 La [Branch "lesson-five-end"](https://github.com/RBastianini/labingsoft/tree/lesson-five-end) contiene lo stato del
+repository alla fine della lezione.
+
+## Lezione 6 - Fixtures, SOLID principles, form e validazione
+A inizio lezione abbiamo visto una possibile soluzione dell'esercizio, con una versione semplificata di paginazione per
+la lista delle location. In seguito è stato mostrato come preparare e inserire delle fixtures, mediante il relativo
+pacchetto
+```shell
+# Dall'interno del container
+$ composer require --dev orm-fixtures
+```
+e il comando
+```shell
+# Dall'interno del container
+$ bin/console doctrine:fixtures:load
+```
+.
+Si è proseguito elencando e definendo i SOLID principles e illustrandone i benefici.
+Nella seconda parte della lezione abbiamo iniziato a vedere i **Form** di Symfony, a partire dall'installazione del
+pacchetto composer
+```shell
+# Dall'interno del container
+$ composer require form
+```
+Abbiamo quindi visto il pattern **Data Transfer Object** e siamo tornati anche a parlare di **Value Object** per
+evidenziare le differenze tra i due. Abbiamo quindi definito dei DTO per `Forecast` e per `TemperatureSpan` e li abbiamo
+utilizzati come supporto per la definizione di altrettanti form. Nel definire e innestare i due form, abbiamo accennato
+al **Composite Pattern** usato da `FormTypeInterface` per rendere i form facilmente componibili.
+Utilizzando il comando della console
+```shell
+# Dall'interno del container
+$ bin/console debug:form
+```
+abbiamo visto quali `FormType` sono quelli disponibili all'uso e ne abbiamo usati e configurati alcuni come `NumberType`
+`ChoiceType` e `EntityType`.
+Abbiamo quindi definition una **Action** *create* nel `ForecastController` e passato il form alla view per il rendering,
+vedendo sia come personalizzare la visualizzazione tramite il tema di bootstrap 5 per i form di Symfony, sia come
+personalizzare il rendering mediante le varie funzioni twig `form_row()`, `form_error()`, `form_label()`, `form_help()`,
+`form_widget()`, `form_start()` e `form_end()`.
+Per finire, abbiamo installato il pacchetto Symfony per la validazione
+```shell
+# Dall'interno del container
+$ composer require validator
+```
+ed utilizzato gli attributi forniti per aggiungere validazione a `ForecastDTO`.
+Abbiamo aggiornato la **Action** *create* per validare il form, prima di prenderne il contenuto, creare un Forecast e
+salvarlo, utilizzando `FormInterface::handleRequest()`, `FormInterface::isSubmitted()` e `FormInterface::isValid()`.
+
+### Da fare per casa
+Aggiungere tutto il necessario per poter creare delle `Location` tramite l'interfaccia web:
+- Controller,
+- Action,
+- Form,
+- DTO (con regole di validazione),
+- View.
+
+Suggerimento: anche se l'entità ha la relazione `Forecasts`, ignorate questa proprietà nella definizione di **DTO** e
+**Form**: vogliamo creare solo una `Location`, abbiamo già tutto il codice necessario per creare i `Forecast`.
+
+### Riferimenti
+- https://symfony.com/doc/current/the-fast-track/en/17-tests.html#defining-fixtures
+- https://learn.microsoft.com/en-us/archive/msdn-magazine/2014/may/csharp-best-practices-dangers-of-violating-solid-principles-in-csharp
+- https://symfony.com/doc/6.4/forms.html
+- https://symfony.com/doc/6.4/reference/forms/types.html
+
+La [Branch "lesson-six-end"](https://github.com/RBastianini/labingsoft/tree/lesson-six-end) contiene lo stato del
 repository alla fine della lezione.
