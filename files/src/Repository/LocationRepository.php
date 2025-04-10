@@ -51,6 +51,7 @@ class LocationRepository extends ServiceEntityRepository
     {
         Assertion::greaterOrEqualThan($page, 1);
         Assertion::greaterOrEqualThan($pageSize, 1);
+
         return $this->createQueryBuilder('l')
             ->setMaxResults($pageSize)
             ->setFirstResult(($page - 1) * $pageSize) // Convert from 1-based page number, to 0-based page number
