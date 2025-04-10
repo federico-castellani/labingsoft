@@ -17,9 +17,27 @@
         </div>
     {% endfor %}
     <div class="row">
-        <div class="col">{% if page.hasPreviousPage %} <a href="{{ path('view_all_locations', {'page': page.number - 1}) }}">&laquo;</a> {% endif %}</div>
-        <div class="col"> {{ 'page_%pageNumber%' | trans({'%pageNumber%': page.number}) }}</div>
-        <div class="col">{% if page.hasNextPage %} <a href="{{ path('view_all_locations', {'page': page.number + 1}) }}">&raquo;</a> {% endif %}</div>
+        <div class="col">
+            {% if page.hasPreviousPage %}
+                <a
+                        href="{{ path('view_all_locations', {'page': page.number - 1}) }}"
+                >
+                    &laquo;
+                </a
+            {% endif %}
+        </div>
+        <div class="col">
+            {{ 'page_%pageNumber%' | trans({'%pageNumber%': page.number}) }}
+        </div>
+        <div class="col">
+            {% if page.hasNextPage %}
+                <a
+                        href="{{ path('view_all_locations', {'page': page.number + 1}) }}"
+                >
+                    &raquo;
+                </a>
+            {% endif %}
+        </div>
     </div>
 {% endblock %}
 

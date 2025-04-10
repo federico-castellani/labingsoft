@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Location;
+use Assert\Assertion;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -48,6 +49,8 @@ class LocationRepository extends ServiceEntityRepository
      */
     public function findPaginated(int $page, int $pageSize): array
     {
+        Assertion::greaterOrEqualThan($page, 1);
+        Assertion::greaterOrEqualThan($pageSize, 1);
         return $this->createQueryBuilder('l')
             ->setMaxResults($pageSize)
             ->setFirstResult(($page - 1) * $pageSize) // Convert from 1-based page number, to 0-based page number
