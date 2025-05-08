@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Enum\ShortWeatherDescription;
+use App\Repository\ForecastRepository;
 use App\ValueObject\TemperatureSpan;
 use Assert\Assertion;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity()]
+#[ORM\Entity(repositoryClass: ForecastRepository::class)]
 #[ORM\Table(name: 'forecasts')]
 #[ORM\UniqueConstraint('unique_forecast_by_location_and_day', columns: ['location_id', 'day'])]
 class Forecast
@@ -164,7 +165,7 @@ class Forecast
 
     public function setHumidityPercentage(?string $humidityPercentage): void
     {
-        Assertion::nullOrBetween($humidityPercentage, 0, 1, 'Humidity percentage should be between 0 and 100');
+        Assertion::nullOrBetween($humidityPercentage, 0, 1, 'Humidity percentage should be between 0 and 1');
         $this->humidityPercentage = $humidityPercentage;
     }
 }
